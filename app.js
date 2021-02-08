@@ -2,13 +2,17 @@
 
 
 
-const search = () => {
+const search = async () => {
     // get search box input value 
     const searchInput = document.getElementById('search-box').value;
     const url = `https://api.lyrics.ovh/suggest/${searchInput}`
-    fetch(url)
-        .then(res => res.json())
-        .then(data => getSongs(data.data))
+    const res = await fetch(url)
+    const data = await res.json()
+    getSongs(data.data)
+
+    // fetch(url)
+    //     .then(res => res.json())
+    //     .then(data => getSongs(data.data))
 }
 
 
@@ -18,7 +22,7 @@ const getSongs = (songs) => {
     const songscontainer = document.getElementById('songs-container')
     songscontainer.innerHTML = '';
     songs.forEach(song => {
-        
+
         const songItem = document.createElement('div');
         songItem.className = "single-result row align-items-center my-3 p-3";
         songItem.innerHTML =
@@ -38,14 +42,18 @@ const getSongs = (songs) => {
     // songscontainer.innerHTML = songItem
 }
 
-const getLyrics = (artist, title) => {
+const getLyrics = async (artist, title) => {
     // lyric link: https://api.lyrics.ovh/v1/:artist/:title
 
     const url = `https://api.lyrics.ovh/v1/${artist}/${title}`;
-    fetch(url)
-        .then(res => res.json())
-        .then(data => displayLyric(data.lyrics))
+    const res = await fetch(url)
+    const data = await res.json()
+    displayLyric(data.lyrics)
 
+    /** this line kept for future reference */
+    // fetch(url)
+    // .then(res => res.json())
+    // .then(data => displayLyric(data.lyrics))
 
 }
 const displayLyric = lyrics => {
